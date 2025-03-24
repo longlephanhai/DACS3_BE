@@ -9,10 +9,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
     private configService: ConfigService,
   ) {
-    // const secret = configService.get<string>('JWT_ACCESS_TOKEN_SECRET');
-    // if (!secret) {
-    //   throw new Error('JWT_ACCESS_TOKEN_SECRET is not defined in the environment variables.');
-    // }
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
@@ -21,6 +17,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: any) {
-    return { userId: payload.sub, email: payload.email };
+    return { _id: payload._id, email: payload.email, name: payload.name };
   }
 }

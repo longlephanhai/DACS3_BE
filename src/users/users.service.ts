@@ -17,8 +17,6 @@ export class UsersService {
   }
   async create(createUserDto: CreateUserDto, user: IUser, avatar: Express.Multer.File) {
     const { name, email, password, phone, role } = createUserDto
-    console.log('user', createUserDto);
-
     const isExist = await this.userModel.findOne({
       email: email
     })
@@ -30,7 +28,7 @@ export class UsersService {
         email,
         name,
         password: hashPassword,
-        image: avatar.originalname,
+        image: avatar?.filename || null,
         phone,
         role,
         createdBy: {

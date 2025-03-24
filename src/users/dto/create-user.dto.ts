@@ -39,4 +39,6 @@ export class RegisterUserDto {
   image: string;
   @Optional()
   phone: string;
+  @Optional()
+  role: string;
 }

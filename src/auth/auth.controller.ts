@@ -1,10 +1,10 @@
-import { Body, Controller, Get, Post, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Request, UseFilters, UseGuards, UseInterceptors } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { AuthGuard } from '@nestjs/passport';
 import { LocalAuthGuard } from './passport/local-auth.guard';
 import { Public, ResponseMessage } from 'src/decorator/customize';
 import { RegisterUserDto } from 'src/users/dto/create-user.dto';
-import { JwtAuthGuard } from './passport/jwt-auth.guard';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { HttpExceptionFilter } from 'src/core/http-exception.filter';
 
 @Controller('auth')
 export class AuthController {
@@ -20,12 +20,13 @@ export class AuthController {
 
   @ResponseMessage('Đăng ký thành công')
   @Public()
+  @UseInterceptors(FileInterceptor('avatar'))
+  @UseFilters(new HttpExceptionFilter())
   @Post('register')
   async handleRegister(@Body() registerDTO: RegisterUserDto) {
     return this.authService.register(registerDTO);
   }
 
-  // @UseGuards(JwtAuthGuard)
   @Get('profile')
   getProfile(@Request() req) {
     return req.user;

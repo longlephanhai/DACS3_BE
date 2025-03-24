@@ -14,6 +14,7 @@ async function bootstrap() {
   // config static file
   app.useStaticAssets(join(__dirname, '..', 'public'));
 
+
   // global validation pipe
   app.useGlobalPipes(new ValidationPipe({
     whitelist: true

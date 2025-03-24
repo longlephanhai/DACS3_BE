@@ -27,5 +27,6 @@ export class RegisterUserDto {
   email: string;
 
   @IsNotEmpty({ message: 'Password ko dc de trong', })
+  @MinLength(8, { message: "Mật khẩu phải có ít nhất 8 ký tự" })
   password: string;
 }

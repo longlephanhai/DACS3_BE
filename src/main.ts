@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
 import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { TransformInterceptor } from './core/transform.interceptor';
+import { JwtAuthGuard } from './auth/passport/jwt-auth.guard';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   // config service
@@ -20,6 +21,7 @@ async function bootstrap() {
 
   const reflector = app.get(Reflector);
   app.useGlobalInterceptors(new TransformInterceptor(reflector));
+  app.useGlobalGuards(new JwtAuthGuard(reflector));
   await app.listen(configService.get('PORT') || 8080);
 }
 bootstrap();

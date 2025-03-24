@@ -7,6 +7,8 @@ import { LocalStrategy } from './passport/local.strategy';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtStrategy } from './passport/jwt.strategy';
+import { MulterModule } from '@nestjs/platform-express';
+import { MulterConfigService } from 'src/image/multer.config';
 @Module({
   imports: [
     UsersModule,
@@ -21,6 +23,9 @@ import { JwtStrategy } from './passport/jwt.strategy';
       }),
       inject: [ConfigService],
     }),
+    MulterModule.registerAsync({
+      useClass: MulterConfigService,
+    })
   ],
   controllers: [AuthController],
   providers: [AuthService, LocalStrategy, JwtStrategy],

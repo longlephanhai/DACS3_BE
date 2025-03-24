@@ -1,5 +1,5 @@
 import { Optional } from "@nestjs/common";
-import { IsAlpha, IsNotEmpty, IsString, Matches, MinLength } from "class-validator";
+import { IsAlpha, IsEmail, IsNotEmpty, IsString, Matches, MinLength } from "class-validator";
 
 export class CreateUserDto {
   @IsNotEmpty({ message: "Tên không được để trống" })
@@ -14,5 +14,18 @@ export class CreateUserDto {
 
   @IsNotEmpty()
   @MinLength(8, { message: "Mật khẩu phải có ít nhất 8 ký tự" })
+  password: string;
+}
+
+export class RegisterUserDto {
+  @IsNotEmpty({ message: 'Name ko dc de trong', })
+  @IsString({ message: "Tên phải là chuỗi" })
+  name: string;
+
+  @IsEmail({}, { message: 'Email ko dung dinh dang' })
+  @IsNotEmpty({ message: 'Email ko dc de trong', })
+  email: string;
+
+  @IsNotEmpty({ message: 'Password ko dc de trong', })
   password: string;
 }

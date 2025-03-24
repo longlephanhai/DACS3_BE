@@ -10,12 +10,12 @@ export class User {
   email: string;
   @Prop({ required: true })
   password: string;
-  @Prop()
+  @Prop({ default: 'user' })
   role: string;
   @Prop()
   image: string;
   @Prop()
-  phone: string;
+  phone: number;
 
   @Prop({ type: Object })
   createdBy: {

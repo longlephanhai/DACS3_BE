@@ -1,11 +1,18 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
+import slugify from 'slugify';
+
+
 
 export type ProductDocument = HydratedDocument<Product>;
 @Schema({ timestamps: true })
 export class Product {
   @Prop({ required: true })
   title: string;
+
+  @Prop({ unique: true })
+  slug: string;
+
   @Prop({ required: true })
   description: string;
   @Prop({ required: true })
@@ -40,3 +47,25 @@ export class Product {
 }
 
 export const ProductSchema = SchemaFactory.createForClass(Product);
+
+ProductSchema.pre('save', async function (next) {
+  if (this.isModified('title') || this.isNew) {
+    let slug = slugify(this.title, { lower: true, strict: true });
+
+    const ProductModel = this.constructor as mongoose.Model<ProductDocument>;
+
+    let exists = await ProductModel.findOne({ slug }).exec();
+    let counter = 1;
+
+    while (exists) {
+      slug = `${slugify(this.title, { lower: true, strict: true })}-${counter}`;
+      exists = await ProductModel.findOne({ slug }).exec();
+      counter++;
+    }
+    this.slug = slug;
+  }
+  next();
+});
+
+
+

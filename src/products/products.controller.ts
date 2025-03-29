@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseFilters, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseFilters, UseInterceptors, UploadedFile, Query } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
@@ -19,9 +19,14 @@ export class ProductsController {
     return this.productsService.create(createProductDto, user, image);
   }
 
+  @ResponseMessage('Fetch product with paginate')
   @Get()
-  findAll() {
-    return this.productsService.findAll();
+  findAll(
+    @Query("current") currentPage: string,
+    @Query("pageSize") limit: string,
+    @Query() qs: string,
+  ) {
+    return this.productsService.findAll(+currentPage, +limit, qs);
   }
 
   @Get(':id')

@@ -12,7 +12,7 @@ export class CategoryController {
   constructor(private readonly categoryService: CategoryService) { }
 
   @Post()
-  @ResponseMessage('Create a new category')
+  @ResponseMessage('Tạo mới thể loại thành công')
   @UseInterceptors(FileInterceptor('image'))
   @UseFilters(new HttpExceptionFilter())
   create(@Body() createCategoryDto: CreateCategoryDto, @User() user: IUser, @UploadedFile() image: Express.Multer.File) {

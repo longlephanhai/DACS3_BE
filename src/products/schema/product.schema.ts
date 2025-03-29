@@ -16,8 +16,8 @@ export class Product {
   price: number;
   @Prop({ required: true })
   quantity: number;
-  @Prop({ required: true })
-  category: string;
+  @Prop({ required: true, ref: 'Category' })
+  category: mongoose.Schema.Types.ObjectId;
   @Prop({ required: true })
   image: string;
   @Prop({ required: true, default: true })

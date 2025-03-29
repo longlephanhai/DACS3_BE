@@ -13,6 +13,8 @@ export class Category {
   image: string;
   @Prop({ unique: true })
   slug: string;
+  @Prop({ required: true, default: true })
+  isActive: boolean;
 
   @Prop({ type: Object })
   createdBy: {

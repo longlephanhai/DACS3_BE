@@ -1,4 +1,5 @@
 import { IsNotEmpty } from "class-validator";
+import mongoose from "mongoose";
 
 export class CreateProductDto {
   @IsNotEmpty()
@@ -10,7 +11,7 @@ export class CreateProductDto {
   @IsNotEmpty()
   quantity: number;
   @IsNotEmpty()
-  category: string;
+  category: mongoose.Schema.Types.ObjectId;
   @IsNotEmpty()
   isActive: boolean;
 }

@@ -5,4 +5,6 @@ export class CreateCategoryDto {
   title: string;
   @IsNotEmpty({ message: "Description is required" })
   description: string;
+  @IsNotEmpty()
+  isActive: boolean;
 }
